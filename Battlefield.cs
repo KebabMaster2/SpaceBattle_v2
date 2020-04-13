@@ -44,6 +44,14 @@ namespace SpaceBattle
         }
         private void MainTimer_Tick(object sender, EventArgs e)
         {
+            if (moveLeft && spaceship.Left>0)
+            {
+                spaceship.Left -= 2;
+            }
+            if (moveRight && spaceship.Left+spaceship.Width<ClientRectangle.Width)
+            {
+                spaceship.Left += 2;
+            }
 
         }
 
@@ -65,12 +73,10 @@ namespace SpaceBattle
             }
             else if(e.KeyCode == Keys.A || e.KeyCode==Keys.Left)
             {
-                spaceship.Left -= 10;
                 moveLeft = true;
             }
             else if(e.KeyCode == Keys.D || e.KeyCode==Keys.Right)
             {
-                spaceship.Left += 10;
                 moveRight = true;
             }
         }
