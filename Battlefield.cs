@@ -25,6 +25,7 @@ namespace SpaceBattle
         {
             InitializeComponent();
             InitializeBattlefield();
+            InitializeMainTimer();
         }
 
         private void InitializeBattlefield()
@@ -39,7 +40,7 @@ namespace SpaceBattle
             mainTimer = new Timer();
             mainTimer.Tick += new EventHandler(MainTimer_Tick);
             mainTimer.Interval = 10;
-
+            mainTimer.Start();
         }
         private void MainTimer_Tick(object sender, EventArgs e)
         {
@@ -57,17 +58,20 @@ namespace SpaceBattle
 
         private void Battlefield_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Space)
+            if(e.KeyCode == Keys.Space && !bulletFired)
             {
                 FireBullet();
+                bulletFired = true;
             }
-            else if(e.KeyCode == Keys.A)
+            else if(e.KeyCode == Keys.A || e.KeyCode==Keys.Left)
             {
                 spaceship.Left -= 10;
+                moveLeft = true;
             }
-            else if(e.KeyCode == Keys.D)
+            else if(e.KeyCode == Keys.D || e.KeyCode==Keys.Right)
             {
                 spaceship.Left += 10;
+                moveRight = true;
             }
         }
 
@@ -76,6 +80,22 @@ namespace SpaceBattle
             if(e.Button == MouseButtons.Left)
             {
                 FireBullet();
+            }
+        }
+
+        private void Battlefield_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space)
+            {
+                bulletFired = false;
+            }
+            else if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left)
+            {
+                moveLeft=false;
+            }
+            else if (e.KeyCode == Keys.D || e.KeyCode == Keys.Right)
+            {
+                moveRight=false;
             }
         }
     }
