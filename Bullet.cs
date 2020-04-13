@@ -13,10 +13,12 @@ namespace SpaceBattle
         private Timer timerBulletMove;
         int verVelocity = 0;
         int horVelocity = 0;
-        int bulletStep = 5;
+        private int bulletStep;
+
         
-        public Bullet()
+        public Bullet(int speed)
         {
+            bulletStep = speed;
             InitializeBullet();
             InitializeTimerBulletMove();
         }

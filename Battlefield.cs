@@ -57,7 +57,15 @@ namespace SpaceBattle
 
         private void FireBullet()
         {
-            bullet = new Bullet();
+            if (spaceship.EngineStatus=="off")
+            {
+                bullet = new Bullet(5);
+            }
+            else if (spaceship.EngineStatus == "on")
+            {
+                bullet = new Bullet(10);
+            }
+
             bullet.Top = spaceship.Top;
             bullet.Left = spaceship.Left + (spaceship.Width / 2 - bullet.Width / 2);
             this.Controls.Add(bullet);
@@ -79,6 +87,19 @@ namespace SpaceBattle
             {
                 moveRight = true;
             }
+            else if (e.KeyCode == Keys.O)
+            {
+                if (spaceship.EngineStatus == "off")
+                {
+                    spaceship.EngineOn();
+                }
+                else if (spaceship.EngineStatus == "on")
+                {
+                    spaceship.EngineOff();
+                }
+
+            }
+
         }
 
         private void Battlefield_MouseDown(object sender, MouseEventArgs e)
@@ -103,6 +124,7 @@ namespace SpaceBattle
             {
                 moveRight=false;
             }
+            
         }
     }
 }
