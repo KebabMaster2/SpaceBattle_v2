@@ -76,7 +76,7 @@ namespace SpaceBattle
         {
             if(e.KeyCode == Keys.Space && !bulletFired)
             {
-                FireBullet();
+                spaceship.Fire(this);
                 bulletFired = true;
             }
             else if(e.KeyCode == Keys.A || e.KeyCode==Keys.Left)
@@ -106,7 +106,7 @@ namespace SpaceBattle
         {
             if(e.Button == MouseButtons.Left)
             {
-                FireBullet();
+                spaceship.Fire(this);
             }
         }
 

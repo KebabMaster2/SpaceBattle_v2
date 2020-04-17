@@ -11,7 +11,10 @@ namespace SpaceBattle
     class Spaceship : PictureBox
     {
         private int imageCount = 1;
+        Spaceship spaceship;
+        Bullet bullet;
         
+
         Timer timerAnimate;
         public string EngineStatus { get; set; } = "on";
         public Spaceship()
@@ -53,6 +56,23 @@ namespace SpaceBattle
         public void EngineOff()
         {
             EngineStatus = "off";
+        }
+        public void Fire(Battlefield battlefield)
+        {
+            
+            if (this.EngineStatus == "off")
+            {
+                bullet = new Bullet(5);
+            }
+            else if (this.EngineStatus == "on")
+            {
+                bullet = new Bullet(10);
+            }
+
+            bullet.Top = this.Top;
+            bullet.Left = this.Left + (this.Width / 2 - bullet.Width / 2);
+            battlefield.Controls.Add(bullet);
+            bullet.BringToFront();
         }
     }
 }
