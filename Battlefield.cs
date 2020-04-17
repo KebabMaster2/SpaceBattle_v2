@@ -17,14 +17,17 @@ namespace SpaceBattle
         bool gameOver = false;
         bool bulletFired = false;
 
-        Spaceship spaceship;
-        Timer mainTimer;
+        private Spaceship spaceship;
+        private Timer mainTimer;
+        private Timer enemyTimer = null;
+        private Random rand = new Random();
       
         public Battlefield()
         {
             InitializeComponent();
             InitializeBattlefield();
             InitializeMainTimer();
+            InitializeEnemyTimer();
         }
 
         private void InitializeBattlefield()
@@ -51,10 +54,23 @@ namespace SpaceBattle
             {
                 spaceship.Left += 2;
             }
+            EnemyBulletCollision();
+            EnemySpaceshipCollision();
 
         }
-
-        
+        private void InitializeEnemyTimer()
+        {
+            enemyTimer = new Timer();
+            enemyTimer.Tick += new EventHandler(EnemyTimer_Tick);
+            enemyTimer.Interval = 1500;
+            enemyTimer.Start();
+        }
+        private void EnemyTimer_Tick(object sender, EventArgs e)
+        {
+            Enemy enemy = new Enemy(rand.Next(1, 6), this);
+            enemy.Left = rand.Next(0, this.ClientRectangle.Width - enemy.Width);
+            this.Controls.Add(enemy);
+        }
 
         private void Battlefield_KeyDown(object sender, KeyEventArgs e)
         {
@@ -84,6 +100,46 @@ namespace SpaceBattle
 
             }
 
+        }
+        private void EnemyBulletCollision()
+        {
+            foreach(Control c in this.Controls)
+            {
+                if((string)c.Tag == "enemy")
+                {
+                    foreach(Control b in this.Controls)
+                    {
+                        if ((string)b.Tag == "bullet")
+                        {
+                            if (c.Bounds.IntersectsWith(b.Bounds))
+                            {
+                                c.Dispose();
+                                b.Dispose();
+                            }                        }
+                    }
+                }
+            }
+        }
+        private void EnemySpaceshipCollision()
+        {
+            foreach(Control c in this.Controls)
+            {
+                if ((string)c.Tag == "enemy")
+                {
+                    if (c.Bounds.IntersectsWith(spaceship.Bounds))
+                    {
+                        c.Dispose();
+                        spaceship.Dispose();
+                        GameOver();
+                    }
+                }
+            }
+            //GameOver();
+        }
+        private void GameOver()
+        {
+            mainTimer.Stop();
+            MessageBox.Show("Game over");
         }
 
         private void Battlefield_MouseDown(object sender, MouseEventArgs e)
