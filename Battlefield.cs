@@ -18,7 +18,6 @@ namespace SpaceBattle
         bool bulletFired = false;
 
         Spaceship spaceship;
-        Bullet bullet;
         Timer mainTimer;
       
         public Battlefield()
@@ -55,22 +54,7 @@ namespace SpaceBattle
 
         }
 
-        private void FireBullet()
-        {
-            if (spaceship.EngineStatus=="off")
-            {
-                bullet = new Bullet(5);
-            }
-            else if (spaceship.EngineStatus == "on")
-            {
-                bullet = new Bullet(10);
-            }
-
-            bullet.Top = spaceship.Top;
-            bullet.Left = spaceship.Left + (spaceship.Width / 2 - bullet.Width / 2);
-            this.Controls.Add(bullet);
-            bullet.BringToFront();
-        }
+        
 
         private void Battlefield_KeyDown(object sender, KeyEventArgs e)
         {

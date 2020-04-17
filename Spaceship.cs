@@ -11,7 +11,7 @@ namespace SpaceBattle
     class Spaceship : PictureBox
     {
         private int imageCount = 1;
-        Spaceship spaceship;
+
         Bullet bullet;
         
 
